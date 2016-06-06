@@ -1,0 +1,800 @@
+﻿//-----------------------------------------------------------------------
+// <copyright file="channeladam-flexbox-mixins.styl">
+//     Copyright (c) 2015 Adam Craven. All rights reserved.
+// </copyright>
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//    http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//-----------------------------------------------------------------------
+/*
+    Summary: Flexbox Mixins for Stylus
+
+    Originally forked from these Less mixins: https://github.com/ProLoser/Flexbox.less (specifically 31 August 2014 - https://github.com/ProLoser/Flexbox.less/blob/1be61d386bdeeb5d0f60feacd503e084361a697f/flexbox.less)
+
+    Useful background information on flexbox:
+     - http://css-tricks.com/snippets/css/a-guide-to-flexbox
+     - http://css-tricks.com/old-flexbox-and-new-flexbox 
+
+
+    Specification Versions
+    ----------------------
+    - Legacy 
+        - the legacy July 2009 specification (http://www.w3.org/TR/2009/WD-css3-flexbox-20090723)
+        - e.g. display: box;
+        - Wrapping not supported.
+
+    - Tweener 
+        - Microsoft's implementation of the draft syntax from 2011 (http://www.w3.org/TR/2011/WD-css3-flexbox-20111129/#display-flexbox)
+        - e.g. display: flexbox;
+
+    - September 2012
+        - the September 2012 Candidate Release specification (http://www.w3.org/TR/2012/CR-css3-flexbox-20120918)
+        - e.g. display: flex;
+
+    - 2015 (perhaps)
+        - an enhanced version of the September 2012 Candidate Release... which could be made final in 2015
+        - working draft -> http://www.w3.org/TR/2014/WD-css-flexbox-1-20140325
+
+
+    Browser support (from http://caniuse.com/#feat=flexbox)
+    ---------------
+    - Legacy: (implementations were different and partial, hence the new spec)
+        - Firefox 2 to 21 with -moz- prefix
+        - Chrome 4 to 20 with -webkit- prefix
+        - Safari 3.1 to 5 with -webkit- prefix
+        - iOS Safari 3.2 to 6.0 with -webkit- prefix
+        - Android Browser 2.1+ to 4.3 with -webkit- prefix
+        - UC Browser for Android 9.9 with -webkit- prefix
+        - Blackberry Browser 7 with -webkit- prefix
+
+    - Tweener:
+        - IE 10 with -ms- prefix
+        - IE Mobile 10 with -ms- prefix 
+
+    - September 2012 CR - Partial Support:
+        - Firefox 22 to 27 without support for flex-flow or flex-wrap properties
+        - Chrome 21 to 28 with -webkit- prefix
+        - Safari 6.1 to ??? with -webkit- prefix
+        - iOS Safari 7.1 to ??? with -webkit- prefix
+        - Opera 15 & 16 with -webkit- prefix, apparently...
+        - Blackberry Browser 10 to ??? with -webkit- prefix
+    
+    - September 2012 CR - Full Support:
+        - IE 11+
+        - IE Mobile 11+
+        - Firefox 28+
+        - Chrome 29+
+        - Safari ???
+        - iOS Safari ???
+        - Opera 12.1+ (although apparently 15 and 16 only support with -webkit- prefix?)
+        - Opera mobile 12.1+
+        - Android Browser 4.4+
+        - Chrome for Android 39+
+        - Firefox for Android 33+
+        - Blackberry Browser ???
+
+    - September 2012 CR - No Support at all:
+        - Opera mini 8
+
+    - 2015:
+        - ???
+*/
+
+
+
+/****************************
+ * Mixin: inline-flexbox-container()
+ *
+ * Usage: apply to the container of a flexbox.
+ */
+
+inline-flexbox-container()
+  // 2009 spec
+  display: -webkit-box
+  display: -moz-box
+  display: -ms-box
+  display: -o-box
+  display: box
+  // tweener -ms- spec
+  display: -ms-inline-flexbox
+  // 2012 spec
+  display: -webkit-inline-flex
+  display: -moz-inline-flex
+  display: -ms-inline-flex
+  display: -o-inline-flex
+  display: inline-flex
+
+
+
+/****************************
+ * Mixin: flexbox-container()
+ *
+ * Usage: apply to the container of a flexbox.
+ */
+
+flexbox-container()
+  // 2009 spec
+  display: -webkit-box     /* OLD - iOS 6-, Safari 3.1-6 */
+  display: -moz-box        /* OLD - Firefox 19- (buggy but mostly works) */
+  display: -ms-box
+  display: -o-box
+  display: box
+  // tweener -ms- spec
+  display: -ms-flexbox     /* TWEENER - IE 10 */
+  // 2012 spec
+  display: -webkit-flex    /* 2012 - Chrome */
+  display: -moz-flex
+  display: -ms-flex
+  display: -o-flex
+  display: flex            /* 2012, Spec - Opera 12.1, Firefox 20+ */
+
+
+
+/****************************
+ * Mixin: flex-direction()
+ *
+ * Usage: apply to the container of a flexbox.
+ *
+ * - flex-direction([row, row-reverse, column, column-reverse])
+ */
+
+flex-direction($direction)
+  if $direction == row
+    // 2009 spec
+    -webkit-box-orient: horizontal
+    -moz-box-orient: horizontal
+    -ms-box-orient: horizontal
+    -o-box-orient: horizontal
+    box-orient: horizontal
+
+  else if $direction == row-reverse
+    // 2009 spec
+    -webkit-box-orient: horizontal
+    -moz-box-orient: horizontal
+    -ms-box-orient: horizontal
+    -o-box-orient: horizontal
+    box-orient: horizontal
+    -webkit-box-direction: reverse
+    -moz-box-direction: reverse
+    -ms-box-direction: reverse
+    -o-box-direction: reverse
+    box-direction: reverse
+
+  else if $direction == column
+    // 2009 spec
+    -webkit-box-orient: vertical
+    -moz-box-orient: vertical
+    -ms-box-orient: vertical
+    -o-box-orient: vertical
+    box-orient: vertical
+
+  else if $direction == column-reverse
+    // 2009 spec
+    -webkit-box-orient: vertical
+    -moz-box-orient: vertical
+    -ms-box-orient: vertical
+    -o-box-orient: vertical
+    box-orient: vertical
+    -webkit-box-direction: reverse
+    -moz-box-direction: reverse
+    -ms-box-direction: reverse
+    -o-box-direction: reverse
+    box-direction: reverse
+
+  // Always append the 2012/2015 spec
+  -webkit-flex-direction: $direction
+  -moz-flex-direction: $direction
+  -ms-flex-direction: $direction
+  -o-flex-direction: $direction
+  flex-direction: $direction
+
+
+
+/****************************
+ * Mixin: flex-wrap()
+ *
+ * Usage: apply to a flexbox container.
+ *
+ * - flex-wrap([wrap, wrap-reverse, nowrap])
+ */
+
+// 2009 property is box-lines
+// single == nowrap
+// multiple == wrap
+// no equivalent to wrap-reverse
+// initial = single
+
+flex-wrap($wrap-method)
+  if $wrap-method == wrap
+    // 2009 spec
+    -webkit-lines: multiple
+    -webkit-box-lines: multiple
+    -moz-box-lines: multiple
+    -ms-box-lines: multiple
+    -o-box-lines: multiple
+    box-lines: multiple
+
+  else if $wrap-method == wrap-reverse
+    // box lines doesn't have wrap reverse, so use box-direction
+    // 2009 spec
+    -webkit-lines: multiple
+    -webkit-box-lines: multiple
+    -moz-box-lines: multiple
+    -ms-box-lines: multiple
+    -o-box-lines: multiple
+    box-lines: multiple
+    -webkit-box-direction: reverse
+    -moz-box-direction: reverse
+    -ms-box-direction: reverse
+    -o-box-direction: reverse
+    box-direction: reverse
+
+  else if $wrap-method == nowrap
+    // 2009 spec
+    -webkit-lines: single
+    -webkit-box-lines: single
+    -moz-box-lines: single
+    -ms-box-lines: single
+    -o-box-lines: single
+    box-lines: single
+
+
+  // 2012/2015 spec is flex-wrap instead of box-lines
+  // nowrap = single line LTR
+  // wrap = multiple lines LTR
+  // wrap-reverse = multiple lines, reversed children LTR
+  // initial = nowrap
+  // not inherited by default spec inherit to force it
+  // 2012/2015 spec
+  -webkit-flex-wrap: $wrap-method
+  -moz-flex-wrap: $wrap-method
+  -ms-flex-wrap: $wrap-method
+  -o-flex-wrap: $wrap-method
+  flex-wrap: $wrap-method
+
+
+      
+/****************************
+ * Mixin: flex-flow()
+ *
+ * Usage: apply to a flexbox container.
+ *
+ * - flex-flow([row, row-reverse, column, column-reverse], [nowrap, wrap, wrap-reverse])
+ */
+
+// flex-flow is actually a shorthand combination of flex-direction and flex-wrap
+
+// flex-direction accepts row | row-reverse | column | column-reverse
+// flex-wrap accepts nowrap | wrap | wrap-reverse
+
+flex-flow($direction, $rest...)
+  -webkit-flex-flow: $direction $rest
+  -ms-flex-flow: $direction $rest
+  flex-flow: $direction $rest
+
+
+
+/****************************
+ * Mixin: align-content()
+ *
+ * Usage: apply to a flexbox container.
+ *
+ * - align-content([start, end, space-between, space-around, center, stretch])
+ */
+
+// Flex line alignment: specifying alignment of flex lines (not individual items) along the cross-axis
+// note: only applies when there is more than one line of content
+
+// 2009 spec does not have an equivalent fallback
+// microsoft property is flex-line-pack
+// flex-end == end
+// flex-start == start
+// space-between == justify
+// space-around == distribute
+// center == center
+// stretch == stretch
+
+align-content($align-content-method)
+  if $align-content-method == start
+    // tweener -ms- spec
+    -ms-flex-line-pack: $align-content-method
+    // 2012/2015 spec
+    -webkit-align-content: flex-start
+    -moz-align-content: flex-start
+    -o-align-content: flex-start
+    align-content: flex-start
+
+  else if $align-content-method == end
+    // tweener -ms- spec
+    -ms-flex-line-pack: $align-content-method
+    // 2012/2015 spec
+    -webkit-align-content: flex-end
+    -moz-align-content: flex-end
+    -o-align-content: flex-end
+    align-content: flex-end
+
+  else if $align-content-method == space-between
+    // tweener -ms- spec
+    -ms-flex-line-pack: justify
+    // 2012/2015 spec
+    -webkit-align-content: space-between
+    -moz-align-content: space-between
+    -o-align-content: space-between
+    align-content: space-between
+
+  else if $align-content-method == space-around
+    // tweener -ms- spec
+    -ms-flex-line-pack: distribute
+    // 2012/2015 spec
+    -webkit-align-content: space-around
+    -moz-align-content: space-around
+    -o-align-content: space-around
+    align-content: space-around
+
+  else if $align-content-method == center or $align-content-method == stretch
+    // tweener -ms- spec
+    -ms-flex-line-pack: $align-content-method
+    // 2012/2015 spec
+    -webkit-align-content: $align-content-method
+    -moz-align-content: $align-content-method
+    -o-align-content: $align-content-method
+    align-content: $align-content-method
+
+
+
+/****************************
+ * Mixin: justify-content()
+ *
+ * Usage: apply to a flexbox container.
+ *
+ * - justify-content([start, end, space-between, space-around, center])
+ */
+
+// Main Axis Alignment: specifying the alignment of flex items within a container on the primary axis
+
+// 2009 spec == box-pack
+// tweener MS spec == flex-pack
+// current spec == justify-content
+
+// flex-start == start
+// center == center
+// flex-end == end
+// space-between == justify
+// space-around == distribute
+// 2009 spec does not support 'distribute' or 'space-around' property
+
+justify-content($justify-method)
+  if $justify-method == start
+    //2009
+    -webkit-box-pack: $justify-method
+    -moz-box-pack: $justify-method
+    -ms-box-pack: $justify-method
+    -o-box-pack: $justify-method
+    box-pack: $justify-method
+    //tweener -ms-
+    -ms-flex-pack: $justify-method
+    // 2012/2015 spec
+    -webkit-justify-content: flex-start
+    -moz-justify-content: flex-start
+    -ms-justify-content: flex-start
+    -o-justify-content: flex-start
+    justify-content: flex-start
+
+  else if $justify-method == end
+    // 2009 spec
+    -webkit-box-pack: $justify-method
+    -moz-box-pack: $justify-method
+    -ms-box-pack: $justify-method
+    -o-box-pack: $justify-method
+    box-pack: $justify-method
+    // tweener -ms- spec
+    -ms-flex-pack: $justify-method
+    // 2012/2015 spec
+    -webkit-justify-content: flex-end
+    -moz-justify-content: flex-end
+    -ms-justify-content: flex-end
+    -o-justify-content: flex-end
+    justify-content: flex-end
+
+  else if $justify-method == center
+    // 2009 spec
+    -webkit-box-pack: center
+    -moz-box-pack: center
+    // tweener -ms- spec
+    -ms-flex-pack: center
+    // 2012/2015 spec
+    -webkit-justify-content: center
+    -moz-justify-content: center
+    -ms-justify-content: center
+    -o-justify-content: center
+    justify-content: center
+
+  else if $justify-method == space-between
+    // 2009 spec
+    -webkit-box-pack: justify
+    -moz-box-pack: justify
+    // tweener -ms- spec
+    -ms-flex-pack: justify
+    // 2012/2015 spec
+    -webkit-justify-content: space-between
+    -moz-justify-content: space-between
+    -ms-justify-content: space-between
+    -o-justify-content: space-between
+    justify-content: space-between
+  
+  else if $justify-method == space-around
+    // 2009 spec has no equivalent
+    // tweener -ms- spec
+    -ms-flex-pack: distribute
+    // 2012 spec
+    -webkit-justify-content: space-around
+    -moz-justify-content: space-around
+    -ms-justify-content: space-around
+    -o-justify-content: space-around
+    justify-content: space-around
+
+
+
+/****************************
+ * Mixin: align-items()
+ *
+ * Usage: apply to a flexbox container.
+ *
+ * - align-items([start, end, center, baseline, stretch])
+ */
+
+// Specifies the alignment of flex items within a container on the cross axis
+
+// 2009 property is box-align
+// tweener -ms- spec is flex-align
+// start == flex-start
+// end == flex-end
+// center == center
+// baseline == baseline
+// stretch = stretch
+
+align-items($align-item-method)
+  if $align-item-method == start
+    // 2009 spec
+    -webkit-box-align: start
+    -moz-box-align: start
+    -ms-box-align: start
+    -o-box-align: start
+    box-align: start
+    // tweener -ms- spec
+    -ms-flex-align: start
+    // 2012/2015 spec
+    -webkit-align-items: flex-start
+    -moz-align-items: flex-start
+    -ms-align-items: flex-start
+    -o-align-items: flex-start
+    align-items: flex-start
+
+  else if $align-item-method == end
+    // 2009 spec
+    -webkit-box-align: end
+    -moz-box-align: end
+    -ms-box-align: end
+    -o-box-align: end
+    box-align: end
+    // tweener -ms- spec
+    -ms-flex-align: end
+    // 2012/2015 spec
+    -webkit-align-items: flex-end
+    -moz-align-items: flex-end
+    -ms-align-items: flex-end
+    -o-align-items: flex-end
+    align-items: flex-end
+
+  // for center, baseline, and stretch, which are the same in all specs
+  if $align-item-method == center or $align-item-method == baseline or $align-item-method == stretch
+    // 2009 spec
+    -webkit-box-align: $align-item-method
+    -moz-box-align: $align-item-method
+    -ms-box-align: $align-item-method
+    -o-box-align: $align-item-method
+    box-align: $align-item-method
+    // tweener -ms- spec
+    -ms-flex-align: $align-item-method
+    // 2012/2015 spec
+    -webkit-align-items: $align-item-method
+    -moz-align-items: $align-item-method
+    -ms-align-items: $align-item-method
+    -o-align-items: $align-item-method
+    align-items: $align-item-method
+
+
+
+
+/*******************************************
+ * Mixin: flexbox-item() and legacy-flexbox-item()
+ *
+ * Usage: apply to a flexbox item.
+ *
+ * - legacy-flexbox-item(none) 
+ * - legacy-flexbox-item(number) 
+ *
+ * - flexbox-item(none) 
+ * - flexbox-item([none, auto, main-size])
+ * - flexbox-item(initial)
+ * - flexbox-item(grow, shrink, basis)
+ */
+
+// 2009 spec is box-flex, and only accepts numbers with decimals
+// tweener -ms- spec and 2012 spec both use flex and contain 3 values instead of just one
+// tweener spec has different names for their values but the values do the same thing
+
+// 2009 spec only accepts a number (not just integer) as an input
+
+// tweener -ms- spec works as follows:
+// -ms-flex: <positive-flex> <negative-flex> <preferred-size>
+// positive-flex is integer indicating whether item should grow
+// negative-flex is integer indicating whether item should shrink
+// preferred-size uses any valid value for width or height (i.e. px, em, rem, %)
+
+// 2012 spec works as follows:
+// flex: <flex-grow> <flex-shrink> <flex-basis>
+// flex-grow is integer indicating whether item should grow
+// flex-shrink is integer indicating whether item should shrink
+// flex-basis  uses any valid value for width (i.e. px, em, rem, %)
+// In 2015, the 2012 spec had an update to change 'auto' to 'main-size'
+
+// From the spec:
+// Note that while a content-based minimum size is often appropriate, and helps prevent content from overlapping or spilling outside its container, in some cases it is not:
+// In particular, if flex sizing is being used for a major content area of a document, it is better to set an explicit font-relative minimum width such as min-width: 12em. A content-based minimum width could result in a large table or large image stretching the size of the entire content area into an overflow zone, and thereby making lines of text gratuitously long and hard to read.
+// Note also, when content-based sizing is used on an item with large amounts of content, the layout engine must traverse all of this content before finding its minimum size, whereas if the author sets an explicit minimum, this is not necessary. (For items with small amounts of content, however, this traversal is trivial and therefore not a performance concern.)
+
+legacy-flexbox-item($arg1)
+  // 2009 spec
+
+  if $arg1 == none
+    // handling 2009 'none' value
+    -webkit-box-flex: 0.0
+    -moz-box-flex: 0.0
+    -ms-box-flex: 0.0
+    -o-box-flex: 0.0
+    box-flex: 0.0 
+
+  else
+    // handling remaining 2009 scenarios where it is not 'none'
+    // 2009 spec (accepts only 1 number value)
+    -webkit-box-flex: $arg1
+    -moz-box-flex: $arg1
+    -ms-box-flex: $arg1
+    -o-box-flex: $arg1
+    box-flex: $arg1 
+
+
+
+flexbox-item($arg1, $arg2=, $arg3=, $rest...) 
+  // 2012/2015 or tweener specifications
+  
+  if $arg1 == none
+    // no growing/shrinking
+    // handling when 2012 or tweener spec is 'none' instead of shorthand values
+    // tweener -ms- spec is same as 2012 with auto
+    // 2012/2015 spec
+    -webkit-flex: 0 0 auto
+    -moz-flex: 0 0 auto
+    -ms-flex: 0 0 auto
+    -o-flex: 0 0 auto
+    flex: 0 0 auto
+    flex: 0 0 main-size         /* 2015 compatible */
+
+  else if $arg1 == auto
+    // handling when 2012 or tweener spec is 'auto' instead of shorthand values
+    // tweener -ms- spec is same as 2012 with auto
+    // 2012/2015 spec
+    -webkit-flex: 1 1 auto
+    -moz-flex: 1 1 auto
+    -ms-flex: 1 1 auto
+    -o-flex: 1 1 auto
+    flex: 1 1 auto
+    flex: 1 1 main-size         /* 2015 compatible */
+
+  else if $arg1 == initial or ($arg1 == 0 and $arg2 == auto) or ($arg1 == 0 and $arg2 == main-size)
+    // handling when 2012 or tweener spec is 'initial' instead of shorthand values
+    // tweener -ms- spec is same as 2012 with auto
+    // 2012/2015 spec
+    -webkit-flex: 0 1 auto
+    -moz-flex: 0 1 auto
+    -ms-flex: 0 1 auto
+    -o-flex: 0 1 auto
+    flex: 0 1 auto
+    flex: 0 1 main-size         /* 2015 compatible */
+
+  else if $arg3 == main-size
+    // this is the 2015 spec. Add backwards compatability with 2012 spec.
+    -webkit-flex: $arg1 $arg2 auto $rest
+    -webkit-flex: $arg1 $arg2 $arg3 $rest
+    -moz-flex: $arg1 $arg2 auto $rest
+    -moz-flex: $arg1 $arg2 $arg3 $rest
+    -ms-flex: $arg1 $arg2 auto $rest
+    -ms-flex: $arg1 $arg2 $arg3 $rest
+    -o-flex: $arg1 $arg2 auto $rest
+    -o-flex: $arg1 $arg2 $arg3 $rest
+    flex: $arg1 $arg2 auto $rest
+    flex: $arg1 $arg2 $arg3 $rest
+
+  else
+    // this should cover all other scenarios that are not shorthand
+    // 2012/2015 spec
+    -webkit-flex: $arg1 $arg2 $arg3 $rest
+    -moz-flex: $arg1 $arg2 $arg3 $rest
+    -ms-flex: $arg1 $arg2 $arg3 $rest
+    -o-flex: $arg1 $arg2 $arg3 $rest
+    flex: $arg1 $arg2 $arg3 $rest
+  
+
+
+/****************************
+ * Mixin: flex-grow()
+ *
+ * Usage: apply to a flexbox item.
+ *
+ * - flex-grow(number)
+ */
+
+// controls how an individual flex item in a flex container will grow
+// flex grow factor is a multiplier that determines how much a flex item grows relative to the other
+// items in the container
+
+// flex-grow is the first of three shorthand values in the flex property
+
+// 2009 spec has box-flex which is an effectively equivalent concept to flex-grow, since it only
+// controls positive growth of flex items
+
+flex-grow($multiplier)
+  // 2009 spec
+  -webkit-box-flex: $multiplier
+  // 2012/2015 spec and tweener -ms- spec
+  -webkit-flex-grow: $multiplier
+  -moz-box-flex: $multiplier
+  -ms-flex: $multiplier 1 auto
+  flex-grow: $multiplier
+
+
+
+/****************************
+ * Mixin: flex-shrink()
+ *
+ * Usage: apply to a flexbox item.
+ *
+ * - flex-shrink(number)
+ */
+
+// controls how an individual flex item in a flex container will shrink
+// flex shrink factor is a multiplier that determines how much a flex item shrinks relative to the other
+// items in the container
+
+// flex-shrink is the second of three shorthand values in the flex property
+
+// 2009 spec does not have an equivalent to flex-shrink
+// controls positive growth of flex items
+
+flex-shrink($multiplier)
+  // 2009 spec does not have an equivalent to flex-shrink
+  // 2012/2015 spec and tweener -ms- spec
+  -webkit-flex-shrink: $multiplier
+  -ms-flex: 0 $multiplier auto
+  flex-shrink: $multiplier
+
+
+
+/****************************
+ * Mixin: flex-basis()
+ *
+ * Usage: apply to a flexbox item.
+ *
+ * - flex-basis(number)
+ * - flex-basis(auto)
+ */
+
+// controls initial width of a flex item, as specified by a standard width value, or 'auto'
+
+// flex-basis is the third of three shorthand values in the flex property
+
+// 2009 spec does not have an equivalent to flex-basis
+
+flex-basis($width)
+  // 2009 spec does not have an equivalent to flex-basis
+  // 2012/2015 spec and tweener -ms- spec
+  -webkit-flex-basis: $width
+  -ms-flex: 0 1 $width
+  flex-basis: $width
+
+
+
+/****************************
+ * Mixin: order()
+ *
+ * Usage: apply to a flexbox item.
+ *
+ * - order(number)
+ */
+
+// specifies the order of an individual flex item within a container this is an override of natural DOM order
+
+// 2009 spec is box-ordinal-group and starts at 1
+// tweener -ms- spec is flex-order and starts at 0
+// 2012 spec is order and starts at 0
+
+order($order)
+  // 2009 spec
+  -webkit-box-ordinal-group: $order + 1
+  -moz-box-ordinal-group: $order + 1
+  -ms-box-ordinal-group: $order + 1
+  -o-box-ordinal-group: $order + 1
+  box-ordinal-group: $order + 1
+  // tweener -ms- spec
+  -ms-flex-order: $order
+  // 2012/2015 spec
+  -webkit-order: $order
+  -moz-order: $order
+  -ms-order: $order
+  -o-order: $order
+  order: $order
+
+
+
+/****************************
+ * Mixin: align-self()
+ *
+ * Usage: apply to a flexbox item.
+ *
+ * - align-self([start, end, auto, center, baseline, stretch])
+ */
+
+// specifying an override alignment of an individual flex-item within a container on the cross axis
+
+// 2009 spec does not have an equivalent fallback
+// tweener -ms- spec is flex-item-align
+// auto == auto
+// start == flex-start
+// end == flex-end
+// center == center
+// baseline == baseline
+// stretch = stretch
+
+align-self($align-self-method) 
+  if $align-self-method == start
+    // tweener -ms- spec
+    -ms-flex-item-align: $align-self-method
+    flex-item-align: $align-self-method
+    // 2012/2015 spec
+    -webkit-align-self: flex-start
+    -moz-align-self: flex-start
+    -ms-align-self: flex-start
+    -o-align-self: flex-start
+    align-self: flex-start
+
+  else if $align-self-method == end
+    // tweener -ms- spec
+    -ms-flex-item-align: $align-self-method
+    flex-item-align: $align-self-method
+    // 2012/2015 spec
+    -webkit-align-self: flex-end
+    -moz-align-self: flex-end
+    -ms-align-self: flex-end
+    -o-align-self: flex-end
+    align-self: flex-end
+
+  else if $align-self-method == auto or $align-self-method == center or $align-self-method == baseline or $align-self-method == stretch
+    // for auto, center, baseline, and stretch, which are the same in both specs
+    // tweener -ms- spec
+    -ms-flex-item-align: $align-self-method
+    flex-item-align: $align-self-method
+    // 2012/2015 spec
+    -webkit-align-self: $align-self-method
+    -moz-align-self: $align-self-method
+    -ms-align-self: $align-self-method
+    -o-align-self: $align-self-method
+    align-self: $align-self-method

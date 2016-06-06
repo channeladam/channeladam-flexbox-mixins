@@ -1,0 +1,186 @@
+﻿//-----------------------------------------------------------------------
+// <copyright file="channeladam-bootstrap3-grid-flexbox.styl" version="1.0.0">
+//     Copyright (c) 2015 Adam Craven. All rights reserved.
+// </copyright>
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//    http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//-----------------------------------------------------------------------
+/*
+
+Summary 
+-------
+A progressive enhancement for Bootstrap 3 fluid grids to use Flexbox when sufficiently supported by a browser.
+
+One advantage of using Flexbox in this way is that all the columns in a Bootstrap row will then automatically have the same height, which is ideal for common layout purposes.
+    
+
+Dependencies
+------------
+  - nib/vendor
+
+  - ChannelAdam Flexbox Mixins 
+      - channeladam-flexbox-mixins.styl
+
+  - Modernizr 3 feature detection of:
+      - flexbox - aka on the website: 'Flexbox'
+      - flexwrap - aka on the website: 'Flex Line Wrapping'
+      - flexboxtweener - aka on the website: 'Flexbox (tweener)'
+    While Modernizr 3 is in beta, download this custom build: http://v3.modernizr.com/download/#-flexbox-flexboxtweener-flexwrap-cssclasses
+    When Modernizr 3 is released, download the custom build from: http://modernizr.com/download/#-flexbox-flexboxtweener-flexwrap-cssclasses
+    
+
+Browser Support
+---------------
+This will only support browsers that implement the Flexbox September 2012 Candidate Release (with or without the usage of vendor prefixes).
+Specifically, the flex-flow and flex-wrap properties must be supported by browser.
+Tweener is also sufficient.
+
+The following browsers should be supported:
+    - IE 10 with -ms- prefix
+    - IE 11+
+    - IE Mobile 10 with -ms- prefix 
+    - IE Mobile 11+
+    - Firefox 28+
+    - Chrome 21 to 28 with -webkit- prefix
+    - Chrome 29+
+    - Safari 6.1 to ??? with -webkit- prefix
+    - Safari ???
+    - iOS Safari 7.1 to ??? with -webkit- prefix
+    - iOS Safari ???
+    - Opera 12.1+ (although apparently 15 and 16 only support with -webkit- prefix?)
+    - Opera mobile 12.1+
+    - Android Browser 4.4+
+    - Chrome for Android 39+
+    - Firefox for Android 33+
+    - Blackberry Browser 10 to ??? with -webkit- prefix
+    - Blackberry Browser ???
+
+Tests have been executed successfully against the following browsers:
+    - IE 9 (testing that this does not incorrectly turn on and adversely affect anything...)
+    - IE 10 with -ms- prefix
+    - IE 11+
+    - Firefox 34
+    - Chrome 39
+    - Chrome for Android 39
+    - iOS Safari 8.0
+    - iOS Chrome 39
+
+
+Modernizr Equivalent Feature Names
+----------------------------------
+The following specifications (as described in flexbox.styl) equate to the following specified Modernizr feature names:
+    - Legacy corresponds to Modernizr's 'flexboxlegacy' feature
+    - Tweener corresponds to Modernizr's 'flexboxtweener' feature
+    - September 2009 corresponds to Modernizr with both the 'flexbox' and 'flexwrap' features.
+
+This progressive enhancement to Bootstrap 3 therefore requires the following Modernizr features:
+    - flexboxtweener, or         (https://github.com/Modernizr/Modernizr/blob/master/feature-detects/css/flexboxtweener.js)
+    - both flexbox and flexwrap. (https://github.com/Modernizr/Modernizr/blob/master/feature-detects/css/flexbox.js and https://github.com/Modernizr/Modernizr/blob/master/feature-detects/css/flexwrap.js)
+
+
+Inspiration
+-----------
+    - https://github.com/zemirco/flexbox-grid/blob/master/flexbox-grid.styl
+    - https://github.com/kristoferjoseph/flexboxgrid/blob/master/src/css/flexboxgrid.css
+    - http://www.minimit.com/articles/solutions-tutorials/bootstrap-3-responsive-columns-of-same-height
+*/
+
+@require 'nib/vendor'                          // for cross browser features
+@require 'channeladam-flexbox-mixins.styl'     // for flexbox specification 
+
+// Variables
+$var-columns = 12
+$var-gutter-width = 1em
+$var-gutter-compensation = ($var-gutter-width / 2 * -1)
+$var-half-gutter-width = ($var-gutter-width / 2)
+
+// Mixins
+common-padding($width)
+  padding-left $width
+  padding-right $width
+
+common-margin($width)
+  margin-left $width
+  margin-right $width
+
+// Styles
+
+// Fluid Container
+.flexboxtweener .container-fluid,
+.flexbox.flexwrap .container-fluid
+  box-sizing(border-box)
+  margin-right: auto
+  margin-left: auto
+
+// Row - a flexbox container
+.flexboxtweener .row,
+.flexbox.flexwrap .row
+  box-sizing(border-box)
+  common-margin($var-gutter-compensation)
+  flexbox-container()
+  flex-direction(row)
+  flex-wrap(wrap)
+  // Fix for Chrome 39 - the flex items would always wrap when column percentages summed to 100%. Removing display:table from row:before and row:after fixes it.
+  &:before
+    display:block
+    content:''
+  &:after
+    display:block
+    content:'' 
+
+// Column - a flex item
+.flexboxtweener div[class*='col-'],
+.flexbox.flexwrap div[class*='col-']
+  box-sizing(border-box)
+  common-padding($var-half-gutter-width)
+
+// Auto width column
+.flexboxtweener .col-auto,
+.flexbox.flexwrap .col-auto
+  max-width: 100%
+  flexbox-item(1, 1, 0%)    /* 0% - automatically determine the width from the content, not from the width/height properties */
+
+// Mixin: makeColumns() 
+// Generates e.g. col-xs-1, col-xs-2, ..., col-xs-12
+makeColumns(klass)
+  for num in (1..$var-columns)
+    .flexboxtweener .col-{klass}-{num},
+    .flexbox.flexwrap .col-{klass}-{num}
+      flexbox-item(1, 1, (100/$var-columns*num)%)  /* mimic bootstrap - set the basis to be the bootstrap width percentage. */
+      max-width: (100/$var-columns*num)%    /* for browser backwards compatability */
+
+// Mixin: makeOffsets()
+// Generates col-xs-offset-1, col-xs-offset-2, ..., col-xs-offset-11
+makeOffsets(klass)
+  for num in (1..$var-columns - 1)
+    .flexboxtweener .col-{klass}-offset-{num},
+    .flexbox .col-{klass}-offset-{num}
+      margin-left (100/$var-columns)%*num
+
+// Generate the default / mobile first xs grid
+makeColumns('xs')
+makeOffsets('xs')
+
+// tablet styles
+@media (min-width: 768px)
+  makeColumns('sm')
+  makeOffsets('sm')
+
+// desktop styles
+@media (min-width: 992px)
+  makeColumns('md')
+  makeOffsets('md')
+
+// large styles
+@media (min-width: 1200px)
+  makeColumns('lg')
+  makeOffsets('lg')
